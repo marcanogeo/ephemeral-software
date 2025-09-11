@@ -16,15 +16,24 @@ html{
     background-color: var(--color-semi-white);
     font-family: var(--font-noto);
     color: var(--color-gray-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body{
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    max-width: 50ch;
-    padding: 1rem;
+    height: 100%;
     line-height: 1.5;
 }
 
+h1{
+    font-family: var(--font-poppins);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}

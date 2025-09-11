@@ -4,7 +4,7 @@ import Navbar from '../components/Navigation.astro';
 const {pageTitle} = Astro.props;
 ---
 <!doctype html>
-<html lang="es">
+<html lang="es" class="h-full">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -12,9 +12,9 @@ const {pageTitle} = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
 	</head>
-	<body>
+	<body class="h-full m-0 p-0 w-full">
 		<Navbar />
-		<main>
+		<main class="w-full h-full">
 		    <slot />
 		</main>
 	</body>
