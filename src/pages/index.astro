@@ -12,12 +12,12 @@ import '../styles/global.css';
 	{/* <Welcome /> */}
 	<div class="relative w-full h-screen">
 		<div class="absolute inset-0 -z-10">
-			<img src={background.src} alt="Background" class="w-full h-full object-fill" />
+			<img src={background.src} alt="Background" class="w-full h-full object-cover"/>
 		</div>
-		<div class="relative z-50 flex flex-col items-center justify-center h-full space-y-6 text-center pt-14">
-			<h1 class="text-6xl font-bold mb-4 text-white" style="font-family: 'Poppins', serif;">Ephemeral</h1>
-			<p class="text-xl mb-8 text-white" style="font-family: 'Noto Sans', sans-serif;">Your Gateway to Temporary Email Solutions</p>
-			<a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" style="font-family: 'Urbanist', sans-serif;">Get Started</a>
+		<div class="relative z-50 flex flex-col items-center justify-center w-full h-full space-y-6 text-center pt-14">
+			<h1 class="text-8xl font-bold mb-4 text-white text-pretty md:text-balance" style="--font-poppins;">Customized Technology Solutions to Boost Your Business</h1>
+			<p class="text-xl mb-8 text-white text-pretty md:text-balance" style="font-family: 'Noto Sans', sans-serif;">We develop innovative systems and applications that cater to your unique needs. Our goal is to help you stay ahead of the competition and achieve your business goals.</p>
+			<a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" style="font-family: 'Urbanist', sans-serif;">Request a free consultation</a>
 		</div>
 	</div>
 </Layout>
