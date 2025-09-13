@@ -37,3 +37,23 @@ h1{
     font-weight: 700;
     margin-bottom: 0.5rem;
 }
+
+h2{
+    font-family: var(--font-poppins);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+h3{
+    font-family: var(--font-poppins);
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}   
+
+a{
+    text-decoration: none;
+    cursor: pointer;
+    text-transform: none;
+}   

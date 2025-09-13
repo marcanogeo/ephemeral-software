@@ -3,21 +3,18 @@
 import Layout from '../layouts/Layout.astro';
 import background from '../assets/bgtech.svg';
 import '../styles/global.css';
+import Banner from '../components/PrincipalBanner.astro';
+import Aboutus from '../components/Info.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	{/* <Welcome /> */}
-	<div class="relative w-full h-screen">
-		<div class="absolute inset-0 -z-10">
-			<img src={background.src} alt="Background" class="w-full h-full object-cover"/>
-		</div>
-		<div class="relative z-50 flex flex-col items-center justify-center w-full h-full space-y-6 text-center pt-14">
-			<h1 class="text-8xl font-bold mb-4 text-white text-pretty md:text-balance" style="--font-poppins;">Customized Technology Solutions to Boost Your Business</h1>
-			<p class="text-xl mb-8 text-white text-pretty md:text-balance" style="font-family: 'Noto Sans', sans-serif;">We develop innovative systems and applications that cater to your unique needs. Our goal is to help you stay ahead of the competition and achieve your business goals.</p>
-			<a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" style="font-family: 'Urbanist', sans-serif;">Request a free consultation</a>
-		</div>
-	</div>
+	<Banner />
+	<Aboutus 
+	title="About Us",
+	description = "At Ephemeral SL, we are experts in the development of computer systems and applications designed to solve the most complex technological challenges. Since our founding in 2000, we have worked with leading companies in the industry, providing innovative solutions that drive efficiency and competitiveness.",
+	description2="We are a team of passionate developers dedicated to creating innovative technology solutions."
+	/>
 </Layout>
