@@ -1,13 +1,36 @@
 ---
 import background from '../assets/bgtech.svg';
+import Banner from '../components/Banner.astro';
+
+interface Props{
+	backgroundImage?: string;
+    Title?: string;
+    Description?: string;
+    ctaText?: string;
+}
+const props: Props = {
+	backgroundImage: background.src,
+    Title: "Customized Technology Solutions to Boost Your Business",
+    Description: "We develop innovative systems and applications that cater to your unique needs. Our goal is to help you stay ahead of the competition and achieve your business goals.",
+    ctaText: "Request a free consultation",
+
+    }
 ---
+<!-- 
 <div class="relative w-full h-screen">
 		<div class="absolute inset-0 -z-10">
-			<img src={background.src} alt="Background" class="w-full h-full object-cover"/>
+			<img src={props.backgroundImage} alt="Background" class="w-full h-full object-cover"/>
 		</div>
 		<div class="relative z-50 flex flex-col items-center justify-center w-full h-full space-y-6 text-center pt-14">
-			<h1 class="text-8xl font-bold mb-4 text-white text-pretty md:text-balance" style="--font-poppins;">Customized Technology Solutions to Boost Your Business</h1>
-			<p class="text-xl mb-8 text-white text-pretty md:text-balance" style="font-family: 'Noto Sans', sans-serif;">We develop innovative systems and applications that cater to your unique needs. Our goal is to help you stay ahead of the competition and achieve your business goals.</p>
-			<a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" style="font-family: 'Urbanist', sans-serif;">Request a free consultation</a>
+			<h1 class="text-8xl font-bold mb-4 text-white text-pretty md:text-balance" style="--font-poppins;">{props.Title}</h1>
+			<p class="text-xl mb-8 text-white text-pretty md:text-balance" style="font-family: 'Noto Sans', sans-serif;">{props.Description}</p>
+			<a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" style="font-family: 'Urbanist', sans-serif;">{props.ctaText}</a>
 		</div>
 </div>
+-->
+<Banner 
+	Title={props.Title} 
+	Description={props.Description} 
+	ctaText={props.ctaText} 
+	backgroundImage={background.src}
+	/>
