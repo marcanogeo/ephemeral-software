@@ -52,8 +52,19 @@ h3{
     margin-bottom: 0.5rem;
 }   
 
-a{
-    text-decoration: none;
-    cursor: pointer;
-    text-transform: none;
+/* Asegurar que los enlaces de navegación sean clickeables */
+nav a {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 999;
+}
+
+/* Prevenir interferencias con pointer-events */
+* {
+    pointer-events: auto;
+}
+
+/* Específicamente para elementos de navegación */
+nav {
+    pointer-events: auto !important;
 }   
