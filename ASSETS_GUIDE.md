@@ -21,11 +21,13 @@ Este proyecto usa un sistema centralizado para manejar las imágenes y assets. T
 ## Cómo usar los Assets
 
 ### Importación Centralizada
+
 ```typescript
 import { serviceIcons, assets } from '../assets/index.ts';
 ```
 
 ### Uso en Componentes
+
 ```astro
 // Para servicios específicos
 <img src={serviceIcons.webDevelopment.src} alt="Web Development" />
@@ -37,16 +39,19 @@ import { serviceIcons, assets } from '../assets/index.ts';
 ## Estructura del Sistema
 
 ### 1. `/src/assets/index.ts`
+
 - Centraliza todas las importaciones de assets
 - Exporta configuraciones de iconos por servicio
 - Proporciona helper functions para URLs
 
 ### 2. Componentes que usan Assets
+
 - `Services.astro` - Usa `serviceIcons` para las cards de servicios
 - `Navigation.astro` - Usa `assets.logo` para el logo
 - `PrincipalBanner.astro` - Usa background images
 
 ### 3. Cards System
+
 - `cards/serv1.astro` - Componente reutilizable para mostrar servicios
 - Acepta props: `title`, `image`, `description`
 - Maneja imágenes con `object-contain` para SVGs

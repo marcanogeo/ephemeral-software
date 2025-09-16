@@ -1,9 +1,9 @@
 ---
-const {backgroundImage = '/src/assets/bg2.jpg', Title = 'Our Services', Description = 'Discover our range of services designed to help your business thrive in the digital age.'} = Astro.props;
+const {backgroundImage , Title , Description } = Astro.props;
 ---
 <div class="relative w-full h-screen">
     <div class="absolute inset-0 -z-10">
-			<img src={backgroundImage} alt="Background" class="w-full h-full object-cover"/>
+			<img src={backgroundImage.src} alt="Background" class="w-full h-full object-cover"/>
 		</div>
 		<div class="relative z-50 flex flex-col items-center justify-center w-full h-full space-y-6 text-center pt-14">
 			<h1 class="text-8xl font-bold mb-4 text-white text-pretty md:text-balance" style="--font-poppins;">{Title}</h1>
