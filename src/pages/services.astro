@@ -1,32 +1,73 @@
 ---
+import '../styles/global.css';
+import Cards from '../components/cards/serv1.astro';
+import { serviceIcons } from '../assets/index.ts';
 import Layout from '../layouts/Layout.astro';
----
+import Banner  from '../components/Banner.astro';
 
+// Configuración de servicios con descripción personalizada
+const servicesData = [
+    {
+        title: "Web Development",
+        image: serviceIcons.webDevelopment.src,
+        description: "Custom web applications tailored to your business needs using modern frameworks and technologies."
+    },
+    {
+        title: "Mobile App Development", 
+        image: serviceIcons.mobileApp.src,
+        description: "Native and cross-platform mobile applications for iOS and Android with exceptional user experience."
+    },
+    {
+        title: "Cloud Solutions",
+        image: serviceIcons.cloudSolutions.src,
+        description: "Scalable cloud infrastructure and migration services to modernize your IT environment."
+    },
+    {
+        title: "UI/UX Design",
+        image: serviceIcons.uiUxDesign.src,
+        description: "User-centered design solutions that enhance engagement and drive business results."
+    },
+    {
+        title: "System Integration",
+        image: serviceIcons.systemIntegration.src,
+        description: "Seamless integration of existing systems with new technologies and platforms."
+    },
+    {
+        title: "DevOps Solutions",
+        image: serviceIcons.devops.src,
+        description: "Streamlined development and deployment processes for faster, more reliable software delivery."
+    },
+    {
+        title: "Technical Consulting",
+        image: serviceIcons.consulting.src,
+        description: "Expert guidance on technology strategy, architecture decisions, and best practices implementation."
+    },
+    {
+        title: "Cybersecurity",
+        image: serviceIcons.cybersecurity.src,
+        description: "Comprehensive security solutions to protect your digital assets and ensure compliance."
+    },
+    {
+        title: "Legacy Modernization",
+        image: serviceIcons.legacyModernization.src,
+        description: "Transform outdated systems into modern, efficient, and maintainable solutions."
+    }
+];
+---
 <Layout pageTitle="Services - Ephemeral SL">
-    <div class="min-h-screen pt-24 px-4">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl font-bold text-gray-800 mb-8">Our Services</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Custom Software Development</h2>
-                    <p class="text-gray-600">We develop tailored software solutions to meet your specific business needs.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">System Integration</h2>
-                    <p class="text-gray-600">Seamlessly integrate your existing systems with new technologies.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Consulting Services</h2>
-                    <p class="text-gray-600">Expert advice on technology strategy and implementation.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Support & Maintenance</h2>
-                    <p class="text-gray-600">Ongoing support to keep your systems running smoothly.</p>
-                </div>
-            </div>
-            <div class="mt-8">
-                <a href="/" class="text-blue-600 hover:text-blue-800 underline">← Back to Home</a>
-            </div>
+<Banner />
+<div class="min-h-screen pt-24 px-4 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Get to know our services and solutions</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {servicesData.map((service) => (
+                <Cards 
+                    title={service.title}
+                    image={service.image}
+                    description={service.description}
+                />
+            ))}
         </div>
     </div>
-</Layout>
+</div>
+<Layout/>

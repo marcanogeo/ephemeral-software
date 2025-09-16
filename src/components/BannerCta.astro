@@ -1,12 +1,13 @@
 ---
-const {backgroundImage = '/src/assets/bgtech.svg', Title = 'Our Services', Description = 'Discover our range of services designed to help your business thrive in the digital age.'} = Astro.props;
+const { backgroundImage, Title, Description, ctaText } = Astro.props;
 ---
 <div class="relative w-full h-screen">
-    <div class="absolute inset-0 -z-10">
+		<div class="absolute inset-0 -z-10">
 			<img src={backgroundImage} alt="Background" class="w-full h-full object-cover"/>
 		</div>
 		<div class="relative z-50 flex flex-col items-center justify-center w-full h-full space-y-6 text-center pt-14">
 			<h1 class="text-8xl font-bold mb-4 text-white text-pretty md:text-balance" style="--font-poppins;">{Title}</h1>
 			<p class="text-xl mb-8 text-white text-pretty md:text-balance" style="font-family: 'Noto Sans', sans-serif;">{Description}</p>
+			<a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" style="font-family: 'Urbanist', sans-serif;">{ctaText}</a>
 		</div>
 </div>

@@ -4,16 +4,18 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import BannerPrincipal from '../components/PrincipalBanner.astro';
 import Aboutus from '../components/Info.astro';
+import Services from '../components/Services.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
+<Layout pageTitle="Home - Ephemeral" class="bg-[var(--color-semi-white)] bg-[url('../assets/imgbackground.jpg')] bg-cover bg-center bg-repeat">
 	<BannerPrincipal />
 	<Aboutus 
 	title="About Us",
-	description = "At Ephemeral SL, we are experts in the development of computer systems and applications designed to solve the most complex technological challenges. Since our founding in 2000, we have worked with leading companies in the industry, providing innovative solutions that drive efficiency and competitiveness.",
+	description = "At Ephemeral, we are experts in the development of computer systems and applications designed to solve the most complex technological challenges. Since our founding in 2017, we have worked with leading companies in the industry, providing innovative solutions that drive efficiency and competitiveness.",
 	description2="We are a team of passionate developers dedicated to creating innovative technology solutions."
 	/>
+<Services />
 </Layout>
