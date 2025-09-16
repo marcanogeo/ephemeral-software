@@ -1,10 +1,10 @@
-# Ephemeral.SL
+# Ephemeral Software
 
-Official website for **Ephemeral Software SL** - A modern, fast, and responsive company website built with cutting-edge web technologies.
+Official website for **Ephemeral Software** - A modern, fast, and responsive company website built with cutting-edge web technologies.
 
 ## 🚀 About
 
-Ephemeral Software SL is a software development company dedicated to creating innovative digital solutions. This repository contains the source code for our official company website, showcasing our services, team, and portfolio.
+Ephemeral Software is a software development company dedicated to creating innovative digital solutions. This repository contains the source code for our official company website, showcasing our services, team, and portfolio.
 
 ## 🛠️ Technology Stack
 
@@ -35,8 +35,8 @@ Make sure you have the following installed on your development machine:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/marcanogeo/Ephemeral.SL.git
-   cd Ephemeral.SL
+   git clone https://github.com/marcanogeo/Ephemeral.git
+   cd Ephemeral
    ```
 
 2. **Install dependencies**
@@ -151,7 +151,7 @@ This project is licensed under the [CC0 1.0 Universal](LICENSE) license - see th
 
 ## 📞 Contact
 
-**Ephemeral Software SL**
+**Ephemeral Software**
 
 For more information about our services or if you have any questions about this project:
 
@@ -163,4 +163,5 @@ For more information about our services or if you have any questions about this 
 
 ⭐ If you found this project helpful, please consider giving it a star on GitHub!
 
-*Built with ❤️ by the Ephemeral Software SL team*
+*Built with ❤️ by the Ephemeral Software team*
+
