@@ -4,9 +4,16 @@ import '../styles/global.css';
 import DynamicBanner from '../components/DynamicBanner.astro';
 import Aboutus from '../components/Info.astro';
 import Services from '../components/Services.astro';
+import { backgroundAssets } from '../assets';
+
+// Preload de la imagen del banner para evitar flash
+const homeBg = backgroundAssets.home;
 ---
 
-<Layout pageTitle="Home - Ephemeral">
+<Layout pageTitle="Home - Ephemeral" backgroundType="home">
+	<!-- Preload crítico del fondo de banner -->
+	<link rel="preload" as="image" href={homeBg.src} />
+	
 	<DynamicBanner 
 		pageType="home"
 		title="Customized Tecnology Solutions to Boost Your Business"
@@ -21,3 +28,11 @@ import Services from '../components/Services.astro';
 	/>
 	<Services />
 </Layout>
+
+<style>
+    /* Optimizaciones específicas para transiciones suaves en home */
+    .dynamic-banner {
+        min-height: 100vh;
+        background: #04335C;
+    }
+</style>

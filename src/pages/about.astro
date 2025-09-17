@@ -1,9 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import DynamicBanner from '../components/DynamicBanner.astro';
+import { backgroundAssets } from '../assets';
+
+// Preload de la imagen del banner para evitar flash
+const aboutBg = backgroundAssets.about;
 ---
 
-<Layout pageTitle="About Us - Ephemeral">
+<Layout pageTitle="About Us - Ephemeral" backgroundType="about">
+    <!-- Preload crítico del fondo de banner -->
+    <link rel="preload" as="image" href={aboutBg.src} />
+    
     <DynamicBanner 
         pageType="about"
         title="About Ephemeral"
@@ -31,3 +38,27 @@ import DynamicBanner from '../components/DynamicBanner.astro';
         </div>
     </section>
 </Layout>
+
+<style>
+    /* Optimizaciones específicas para transiciones suaves en about */
+    .dynamic-banner {
+        min-height: 100vh;
+        background: #04335C;
+    }
+    
+    /* Transición suave para la sección de contenido */
+    #content {
+        animation: slideInFromBottom 0.6s ease-out 0.5s both;
+    }
+    
+    @keyframes slideInFromBottom {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

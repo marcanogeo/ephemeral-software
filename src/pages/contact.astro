@@ -2,9 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import DynamicBanner from '../components/DynamicBanner.astro';
 import inprogrees from '../assets/in-progress.svg';
+import { backgroundAssets } from '../assets';
+
+// Preload de la imagen del banner para evitar flash
+const contactBg = backgroundAssets.contact;
 ---
 
-<Layout pageTitle="Contact - Ephemeral">
+<Layout pageTitle="Contact - Ephemeral" backgroundType="contact">
+    <!-- Preload crítico del fondo de banner -->
+    <link rel="preload" as="image" href={contactBg.src} />
+    
     <DynamicBanner 
         pageType="contact"
         title="Contact Us"
@@ -27,3 +34,27 @@ import inprogrees from '../assets/in-progress.svg';
         </div>
     </section>
 </Layout>
+
+<style>
+    /* Optimizaciones específicas para transiciones suaves en contact */
+    .dynamic-banner {
+        min-height: 100vh;
+        background: #04335C;
+    }
+    
+    /* Transición suave para la sección de contacto */
+    #contact-form {
+        animation: slideInFromBottom 0.6s ease-out 0.5s both;
+    }
+    
+    @keyframes slideInFromBottom {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

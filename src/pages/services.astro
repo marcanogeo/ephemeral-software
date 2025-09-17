@@ -2,9 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import DynamicBanner from '../components/DynamicBanner.astro';
 import ServicesComponent from '../components/Services.astro';
+import { backgroundAssets } from '../assets';
+
+// Preload de la imagen del banner para evitar flash
+const servicesBg = backgroundAssets.services;
 ---
 
-<Layout pageTitle="Services - Ephemeral SL">
+<Layout pageTitle="Services - Ephemeral SL" backgroundType="services">
+    <!-- Preload crítico del fondo de banner -->
+    <link rel="preload" as="image" href={servicesBg.src} />
+    
     <DynamicBanner 
         pageType="services"
         title="Our Services"
@@ -15,3 +22,27 @@ import ServicesComponent from '../components/Services.astro';
         <ServicesComponent />
     </section>
 </Layout>
+
+<style>
+    /* Optimizaciones específicas para transiciones suaves en services */
+    .dynamic-banner {
+        min-height: 100vh;
+        background: #04335C;
+    }
+    
+    /* Transición suave para la sección de servicios */
+    #services {
+        animation: slideInFromBottom 0.6s ease-out 0.5s both;
+    }
+    
+    @keyframes slideInFromBottom {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
