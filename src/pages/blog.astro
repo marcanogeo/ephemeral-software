@@ -1,17 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import DynamicBanner from '../components/DynamicBanner.astro';
 ---
-<Layout pageTitle="Blog - Ephemeral">
-    <div class="min-h-screen pt-24 px-4">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl font-bold text-gray-800 mb-8">Blog</h1>
-            <div class="prose prose-lg">
-                <p class="text-gray-600 mb-6">
+
+<Layout pageTitle="Blog - Ephemeral" usePatternBackground={true}>
+    <DynamicBanner 
+        pageType="default"
+        title="Our Blog"
+        description="Insights, updates, and articles on the latest trends in technology, software development, and industry best practices."
+    />
+    
+    <div id="blog-content" class="min-h-screen pt-24 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8">Latest Articles</h2>
+            <div class="max-w-3xl mx-auto">
+                <p class="text-gray-600 mb-6 text-lg leading-relaxed">
                     Welcome to the Ephemeral blog! Here, we share insights, updates, and articles on the latest trends in technology, software development, and industry best practices. Stay tuned for expert advice and thought leadership from our team of passionate developers.
                 </p>
                 <div class="mt-8">
-                    <a href="/" class="text-blue-600 hover:text-blue-800 underline">← Back to Home</a>
+                    <a href="/" class="text-blue-600 hover:text-blue-800 underline text-lg">← Back to Home</a>
                 </div>
             </div>
         </div>
     </div>
+</Layout>

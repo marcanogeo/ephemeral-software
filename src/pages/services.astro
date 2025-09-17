@@ -1,21 +1,17 @@
 ---
-import Banner from '../components/Banner.astro';
 import Layout from '../layouts/Layout.astro';
-import background from '../assets/bg2.jpg';
+import DynamicBanner from '../components/DynamicBanner.astro';
 import ServicesComponent from '../components/Services.astro';
-
-const {
-    backgroundImage = background,
-    Title = "Our Services",
-    Description = "Discover our range of services designed to help your business thrive in the digital age."
-} = Astro.props;    
 ---
+
 <Layout pageTitle="Services - Ephemeral SL">
-    <Banner
-        backgroundImage={backgroundImage}
-        Title={Title}
-        Description={Description}
+    <DynamicBanner 
+        pageType="services"
+        title="Our Services"
+        description="Discover our range of comprehensive technology services designed to help your business thrive in the digital age."
     />
-    <div class=" mx-auto p-4"></div>
-    <ServicesComponent />
+    
+    <section id="services" class="pt-12">
+        <ServicesComponent />
+    </section>
 </Layout>

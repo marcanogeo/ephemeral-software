@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Forum&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
 :root {
-    --font-noto: 'Noto Sans', sans-serif;
-    --font-roboto: 'Roboto', sans-serif;
-    --font-poppins: 'Poppins', sans-serif;
+    --font-noto: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-poppins: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     --color-semi-white: #fcffff;
     --color-gray-dark: #333;
+    --color-gray-heading: #1a202c; /* Color ideal para títulos según Material Design */
+    --color-gray-text: #4a5568; /* Color ideal para texto según Material Design */
     --color-black: #000;
     --color-primary: #0075bc;
     --color-blue-link: #2214e0;
@@ -16,12 +18,13 @@ html{
     background-color: var(--color-semi-white);
     background-image: url('/src/assets/imgbackground.jpg') repeat cover;
     font-family: var(--font-noto);
-    color: var(--color-gray-dark);
+    color: var(--color-gray-text);
     font-size: 1rem;
     font-weight: 400;
     height: 100%;
     margin: 0;
     padding: 0;
+    line-height: 1.6; /* Mejora la legibilidad */
 }
 
 body{
@@ -29,29 +32,66 @@ body{
     padding: 0;
     width: 100%;
     height: 100%;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-family: var(--font-noto);
 }
 
-h1{
+/* Displays y títulos principales con Poppins */
+h1, .display-1, .display-2, .display-3, .display-4 {
     font-family: var(--font-poppins);
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
+    color: var(--color-gray-heading);
+    line-height: 1.2;
 }
 
+/* H2 y H3 con Roboto */
 h2{
-    font-family: var(--font-poppins);
+    font-family: var(--font-roboto);
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    color: var(--color-gray-heading);
+    line-height: 1.3;
 }
 
 h3{
-    font-family: var(--font-poppins);
+    font-family: var(--font-roboto);
     font-size: 1.75rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
+    color: var(--color-gray-heading);
+    line-height: 1.3;
 }   
+
+/* Texto general con Noto Sans */
+p, span, div, li, td, th, label, input, textarea, select {
+    font-family: var(--font-noto);
+    color: var(--color-gray-text);
+}
+
+/* Clases utilitarias para fuentes */
+.font-poppins {
+    font-family: var(--font-poppins) !important;
+}
+
+.font-roboto {
+    font-family: var(--font-roboto) !important;
+}
+
+.font-noto {
+    font-family: var(--font-noto) !important;
+}
+
+/* Colores específicos para tipografía */
+.text-heading {
+    color: var(--color-gray-heading) !important;
+}
+
+.text-body {
+    color: var(--color-gray-text) !important;
+}
 
 /* Asegurar que los enlaces de navegación sean clickeables */
 nav a {

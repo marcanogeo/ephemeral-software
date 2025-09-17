@@ -1,22 +1,33 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import DynamicBanner from '../components/DynamicBanner.astro';
 ---
 
 <Layout pageTitle="About Us - Ephemeral">
-    <div class="min-h-screen pt-24 px-4">
-        <div class="min-h-screen mx-auto">
-            <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">About Ephemeral</h1>
-            <div class="prose prose-lg">
-                <p class="text-gray-600 mb-6">
-                    At Ephemeral, we are experts in the development of computer systems and applications 
-                    designed to solve the most complex technological challenges. Since our founding in 2017, 
-                    we have worked with leading companies in the industry, providing innovative solutions 
-                    that drive efficiency and competitiveness.
-                </p>
-                <p class="text-gray-600 mb-6">
-                    We are a team of passionate developers dedicated to creating innovative technology solutions.
-                </p>
+    <DynamicBanner 
+        pageType="about"
+        title="About Ephemeral"
+        description="Passionate developers creating innovative technology solutions since 2017. Discover our journey and expertise."
+    />
+    
+    <section id="content" class="pattern-background py-16">
+        <div class="min-h-screen pt-24 px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold mb-8 text-center bg-clip-text">
+                    Our Story
+                </h2>
+                <div class="text-center max-w-3xl mx-auto">
+                    <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                        At Ephemeral, we are experts in the development of computer systems and applications 
+                        designed to solve the most complex technological challenges. Since our founding in 2017, 
+                        we have worked with leading companies in the industry, providing innovative solutions 
+                        that drive efficiency and competitiveness.
+                    </p>
+                    <p class="text-gray-600 mb-6 text-lg">
+                        We are a team of passionate developers dedicated to creating innovative technology solutions.
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </Layout>

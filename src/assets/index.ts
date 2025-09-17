@@ -1,7 +1,6 @@
 // assets/index.ts - Archivo para centralizar la gestión de assets
 import astroIcon from './astro.svg';
 import azuredevopsIcon from './azuredevops.svg';
-import backgroundImage from './background.svg';
 import bgtechImage from './bgtech.svg';
 import logoImage from './logo.svg';
 import codeIcon from './ph_code-fill.svg';
@@ -10,6 +9,12 @@ import teamMeetingIcon from './team-meeting-bold.svg';
 import appIcon from './app.png';
 import systemIcon from './system.png';
 import uiUxIcon from './ui-ux.png';
+// Imágenes de fondo para banners dinámicos
+import bg2Image from './bg2.jpg';
+import patternsBgImage from './patternsbg.jpg';
+import bg3Image from './bg3.jpg';
+import bg4Image from './bg4.jpg';
+import bg5Image from './bg5.jpg';
 
 // Exportar todas las imágenes con nombres descriptivos
 export const assets = {
@@ -24,9 +29,24 @@ export const assets = {
   uiUx: uiUxIcon,
   
   // Imágenes de fondo y branding
-  background: backgroundImage,
   bgtech: bgtechImage,
+  bg2: bg2Image,
+  patternsBg: patternsBgImage,
+  bg3: bg3Image,
+  bg4: bg4Image,
+  bg5: bg5Image,
   logo: logoImage,
+} as const;
+
+// Configuración específica de fondos para banners dinámicos
+// Optimizada para consistencia UX/UI y mejor legibilidad de texto
+export const backgroundAssets = {
+  home: bgtechImage,        // Fondo técnico principal - oscuro con patrones tech
+  about: bgtechImage,       // Consistencia con home para cohesión visual
+  services: bgtechImage,    // Mismo fondo técnico para servicios tech
+  contact: bg2Image,        // Fondo diferenciado para contacto - más cálido
+  blog: bgtechImage,        // Consistencia con otras páginas de contenido
+  default: bgtechImage,     // Fondo por defecto técnico para coherencia
 } as const;
 
 // Tipos para TypeScript

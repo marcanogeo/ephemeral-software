@@ -2,8 +2,12 @@
 const {title, description, description2} = Astro.props;
 ---
 
-<div class="max-w-4xl justify-center items-center text-center mx-auto p-6 my-6">
-    <h2 class="text-4xl font-bold text-gray-800 pb-4 mb-4">{title}</h2>
-    <span class="text-lg mb-6">{description}</span>
-    <p class="text-lg mb-6">{description2}</p>
-</div>
+<section class="pattern-background py-16">
+    <div class="max-w-4xl mx-auto p-8 text-center">
+        <h2 class="text-4xl font-bold pb-4 mb-8 text-heading font-roboto">{title}</h2>
+        <div class="max-w-3xl mx-auto space-y-6">
+            <p class="text-lg leading-relaxed text-gray-700">{description}</p>
+            <p class="text-lg leading-relaxed text-gray-600">{description2}</p>
+        </div>
+    </div>
+</section>
