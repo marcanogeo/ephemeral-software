@@ -1,0 +1,27 @@
+---
+export interface Props {
+    title: string;
+    image: string;
+    description?: string;
+}
+
+const { title, image, description = "Professional services tailored to meet your business needs with cutting-edge technology solutions." } = Astro.props;
+---
+<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <div class="relative overflow-hidden">
+        <img 
+            src={image} 
+            alt={`${title} service icon`} 
+            class="w-full h-48 object-contain p-8" 
+        />
+    </div>
+    <div class="p-6">
+        <h5 class="card-title text-center font-semibold mb-3 text-gray-800 hover:text-blue-600 transition-colors">{title}</h5>
+        <!--<p class="text-gray-600 text-sm leading-relaxed">{description}</p> -->
+        <!--<div class="mt-4">
+            <button class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200">
+                Learn More →
+            </button>
+        </div>-->
+    </div>
+</div>

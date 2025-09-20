@@ -1,5 +1,5 @@
 // assets/index.ts - Archivo para centralizar la gestión de assets
-import astroIcon from './astro.svg';
+
 import azuredevopsIcon from './azuredevops.svg';
 import bgtechImage from './bgtech.svg';
 import logoImage from './logo.svg';
@@ -19,7 +19,7 @@ import bg5Image from './bg5.jpg';
 // Exportar todas las imágenes con nombres descriptivos
 export const assets = {
   // Iconos de servicios
-  astro: astroIcon,
+
   code: codeIcon,
   teamMeeting: teamMeetingIcon,
   serverSecurity: serverSecurityIcon,

@@ -2,8 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import DynamicBanner from '../components/DynamicBanner.astro';
-import Aboutus from '../components/Info.astro';
+import Info from '../components/Info.astro';
 import Services from '../components/Services.astro';
+import Brands from '../components/Brands.astro';
 import { backgroundAssets } from '../assets';
 
 // Preload de la imagen del banner para evitar flash
@@ -21,12 +22,18 @@ const homeBg = backgroundAssets.home;
 		ctaText="Request a free consultation"
 		ctaLink="#services"
 	/>
-	<Aboutus 
+	<Info 
 		title="About Us"
 		description="At Ephemeral, we are experts in the development of computer systems and applications designed to solve the most complex technological challenges. Since our founding in 2017, we have worked with leading companies in the industry, providing innovative solutions that drive efficiency and competitiveness."
 		description2="We are a team of passionate developers dedicated to creating innovative technology solutions."
 	/>
 	<Services />
+	<Info
+	title = "Why Choose Us"
+	description = "We combine technical expertise with a deep understanding of business needs to deliver solutions that truly make a difference."
+	description2 = "Our commitment to quality, innovation, and customer satisfaction sets us apart in the tech industry."
+	/>
+	<Brands />
 </Layout>
 
 <style>
