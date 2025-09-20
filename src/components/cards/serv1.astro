@@ -7,7 +7,7 @@ export interface Props {
 
 const { title, image, description = "Professional services tailored to meet your business needs with cutting-edge technology solutions." } = Astro.props;
 ---
-<!-- <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+ <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
     <div class="relative overflow-hidden">
         <img 
             src={image} 
@@ -24,20 +24,5 @@ const { title, image, description = "Professional services tailored to meet your
             </button>
         </div>
     </div>
-</div> -->
+</div> 
 
-<div class="card sm:max-w-sm">
-    <div class="relative overflow-hidden">
-        <img 
-            src={image} 
-            alt={`${title} service icon`} 
-            class="w-full h-48 object-contain p-8" 
-        />
-        <!--class="w-full h-48 object-contain bg-gradient-to-br from-blue-50 to-indigo-100 p-8" -->
-    </div>
-  <div class="card-body">
-    <h5 class="card-title text-center font-bold mb-2.5">{title}</h5>
-    <!-- <p>{description}</p>-->
-  </div>
-  <!--<div class="card-footer text-base-content/50 text-center">2 days ago</div>-->
-</div>
