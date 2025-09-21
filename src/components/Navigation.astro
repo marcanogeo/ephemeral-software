@@ -1,71 +1,37 @@
 ---
 import logo from '../assets/logo.svg';
 import '../styles/global.css';
+import Links from '../components/ItemLink.astro';
 ---
+
 <nav class="shadow-sm w-full fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-[9999]">
     <div class="w-full max-w-7xl mx-auto px-4 flex justify-between items-center py-4">
+        <!-- Logo -->
         <div class="flex items-center">
             <a href="/" class="cursor-pointer hover:opacity-80 transition-opacity duration-200">
                 <img src={logo.src} alt="Ephemeral Logo" class="w-50 h-50 md:w-auto md:h-auto" />
             </a>
         </div>
-        <div class="hidden md:flex items-center space-x-8">
-            <a 
-                href="/" 
-                class="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md"
-            >
-                Home
-            </a>
-            <a 
-                href="/about/" 
-                class="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md"
-            >
-                About
-            </a>
-            <a 
-                href="/services/" 
-                class="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md"
-            >
-                Services
-            </a>
-            <a 
-                href="/blog/" 
-                class="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md"
-            >
-                Blog
-            </a>
-            <a 
-                href="/contact/" 
-                class="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md"
-            >
-                Contact
-            </a>
-        </div>
         
-        <!-- Mobile menu button (for future implementation) -->
-        <div class="md:hidden">
-            <button class="text-gray-700 hover:text-blue-600 cursor-pointer p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </div>
+        <!-- Navigation Links (Desktop & Mobile) -->
+        <Links />
     </div>
 </nav>
 
 <style>
-    /* Asegurar que los enlaces sean clickeables */
-    nav a {
-        position: relative;
-        z-index: 10;
-        pointer-events: auto;
+    /* Asegurar que la navegación funcione correctamente */
+    nav {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
     }
     
-    /* Prevenir que otros elementos interfieran */
+    /* Asegurar que el z-index funcione con el menú móvil */
     nav {
-        pointer-events: auto;
+        position: relative;
     }
-</style> 
+</style>
 
- 
+
+
+
 
