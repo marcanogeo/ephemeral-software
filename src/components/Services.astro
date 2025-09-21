@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import Cards from '../components/cards/cards.astro';
+import CardsComponent from '../components/Cards.astro';
 import { serviceIcons } from '../assets/index.ts';
 
 // Configuración de servicios con descripción personalizada
@@ -58,7 +58,7 @@ const servicesData = [
             <h2 class="text-4xl font-bold text-gray-800 mb-6 pb-6 text-center">Get to know our services and solutions</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {servicesData.map((service) => (
-                    <Cards 
+                    <CardsComponent
                         title={service.title}
                         image={service.image}
                         description={service.description}
