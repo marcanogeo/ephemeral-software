@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname;
             return (
                 <a 
                     href={item.href} 
-                    class={`text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md ${isActive ? 'text-blue-600 bg-blue-50' : ''}`}
+                    class={`text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md ${isActive ? 'text-blue-600' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
                 >
                     {item.label}
@@ -104,7 +104,7 @@ const currentPath = Astro.url.pathname;
         const closeIcon = document.getElementById('close-icon');
         
         let isOpen = false;
-        let resizeTimeout: number;
+        let resizeTimeout: ReturnType<typeof setTimeout>;
         
         // Optimized toggle function
         function toggleMenu(): void {
