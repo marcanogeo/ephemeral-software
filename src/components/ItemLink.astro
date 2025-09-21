@@ -11,71 +11,88 @@ const items = refs.map(ref => ({
     href: ref.href,
     label: ref.label,
 }));
+
+// Obtener la URL actual para highlight de página activa
+const currentPath = Astro.url.pathname;
 ---
 
 <!-- Desktop Navigation -->
-<div class="hidden md:flex items-center space-x-8">
-    {items.map(item => (
-        <a 
-            href={item.href} 
-            class="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md"
-        >
-            {item.label}
-        </a>
-    ))}
-</div>
+<nav role="navigation" aria-label="Main navigation">
+    <div class="hidden md:flex items-center space-x-8">
+        {items.map(item => {
+            const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+            return (
+                <a 
+                    href={item.href} 
+                    class={`text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md ${isActive ? 'text-blue-600 bg-blue-50' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
+                >
+                    {item.label}
+                </a>
+            );
+        })}
+    </div>
 
-<!-- Mobile Navigation -->
-<div class="md:hidden relative">
-    <button 
-        id="mobile-menu-button"
-        class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 p-2 rounded-md transition-colors duration-200"
-        aria-label="Toggle mobile menu"
-        aria-expanded="false"
-    >
-        <!-- Hamburger Icon -->
-        <svg id="hamburger-icon" class="w-6 h-6 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-        <!-- Close Icon (hidden by default) -->
-        <svg id="close-icon" class="w-6 h-6 hidden transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-    </button>
-    
-    <!-- Mobile Menu Backdrop -->
-    <div 
-        id="mobile-backdrop"
-        class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity duration-300"
-        aria-hidden="true"
-    ></div>
-    
-    <!-- Mobile Menu Dropdown -->
-    <div 
-        id="mobile-menu"
-        class="absolute top-full right-0 w-screen max-w-sm bg-white shadow-xl border border-gray-100 rounded-lg mt-2 mr-4 hidden z-50 transform transition-all duration-300 ease-out"
-        style="transform: translateY(-10px) scale(0.95); opacity: 0;"
-    >
-        <div class="py-2">
-            <!-- Mobile Menu Header -->
-            <div class="px-4 py-3 border-b border-gray-100">
-                <p class="text-sm font-medium text-gray-500">Navigation</p>
-            </div>
-            
-            <!-- Navigation Links -->
+    <!-- Mobile Navigation -->
+    <div class="md:hidden relative">
+        <button 
+            id="mobile-menu-button"
+            class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 p-2 rounded-md transition-colors duration-200"
+            aria-label="Toggle mobile menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+        >
+            <!-- Hamburger Icon -->
+            <svg id="hamburger-icon" class="w-6 h-6 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <!-- Close Icon (hidden by default) -->
+            <svg id="close-icon" class="w-6 h-6 hidden transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <!-- Mobile Menu Backdrop -->
+        <div 
+            id="mobile-backdrop"
+            class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity duration-300"
+            aria-hidden="true"
+        ></div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div 
+            id="mobile-menu"
+            class="absolute top-full right-0 w-screen max-w-sm bg-white shadow-xl border border-gray-100 rounded-lg mt-2 mr-4 hidden z-50 transform transition-all duration-300 ease-out"
+            style="transform: translateY(-10px) scale(0.95); opacity: 0;"
+            role="menu"
+            aria-labelledby="mobile-menu-button"
+        >
             <div class="py-2">
-                {items.map(item => (
-                    <a 
-                        href={item.href} 
-                        class="block text-gray-700 hover:text-blue-600 hover:bg-blue-50 cursor-pointer transition-all duration-200 font-medium py-3 px-4 border-l-4 border-transparent hover:border-blue-600"
-                    >
-                        {item.label}
-                    </a>
-                ))}
+                <!-- Mobile Menu Header -->
+                <div class="px-4 py-3 border-b border-gray-100">
+                    <p class="text-sm font-medium text-gray-500">Navigation</p>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="py-2" role="none">
+                    {items.map(item => {
+                        const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+                        return (
+                            <a 
+                                href={item.href} 
+                                class={`block text-gray-700 hover:text-blue-600 hover:bg-blue-50 cursor-pointer transition-all duration-200 font-medium py-3 px-4 border-l-4 border-transparent hover:border-blue-600 ${isActive ? 'text-blue-600 bg-blue-50 border-blue-600' : ''}`}
+                                role="menuitem"
+                                aria-current={isActive ? 'page' : undefined}
+                            >
+                                {item.label}
+                            </a>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     </div>
-</div>
+</nav>
 
 <script>
     // Mobile menu toggle functionality with professional animations
@@ -87,96 +104,111 @@ const items = refs.map(ref => ({
         const closeIcon = document.getElementById('close-icon');
         
         let isOpen = false;
+        let resizeTimeout: number;
         
-        function toggleMenu() {
+        // Optimized toggle function
+        function toggleMenu(): void {
             isOpen = !isOpen;
             
             if (isOpen) {
-                // Open menu
-                mobileMenu?.classList.remove('hidden');
-                mobileBackdrop?.classList.remove('hidden');
-                hamburgerIcon?.classList.add('hidden');
-                closeIcon?.classList.remove('hidden');
-                mobileMenuButton?.setAttribute('aria-expanded', 'true');
-                
-                // Animate menu appearance
-                requestAnimationFrame(() => {
-                    if (mobileMenu) {
-                        mobileMenu.style.transform = 'translateY(0) scale(1)';
-                        mobileMenu.style.opacity = '1';
-                    }
-                });
-                
-                // Prevent body scroll
-                document.body.style.overflow = 'hidden';
+                openMenu();
             } else {
-                // Close menu
-                if (mobileMenu) {
-                    mobileMenu.style.transform = 'translateY(-10px) scale(0.95)';
-                    mobileMenu.style.opacity = '0';
-                }
-                
-                hamburgerIcon?.classList.remove('hidden');
-                closeIcon?.classList.add('hidden');
-                mobileMenuButton?.setAttribute('aria-expanded', 'false');
-                
-                // Hide after animation
-                setTimeout(() => {
-                    mobileMenu?.classList.add('hidden');
-                    mobileBackdrop?.classList.add('hidden');
-                }, 300);
-                
-                // Restore body scroll
-                document.body.style.overflow = '';
+                closeMenu();
             }
         }
         
-        // Toggle on button click
-        mobileMenuButton?.addEventListener('click', (e) => {
+        function openMenu(): void {
+            if (!mobileMenu || !mobileBackdrop) return;
+            
+            // Show elements
+            mobileMenu.classList.remove('hidden');
+            mobileBackdrop.classList.remove('hidden');
+            hamburgerIcon?.classList.add('hidden');
+            closeIcon?.classList.remove('hidden');
+            mobileMenuButton?.setAttribute('aria-expanded', 'true');
+            
+            // Animate menu appearance
+            requestAnimationFrame(() => {
+                if (mobileMenu) {
+                    mobileMenu.style.transform = 'translateY(0) scale(1)';
+                    mobileMenu.style.opacity = '1';
+                }
+            });
+            
+            // Prevent body scroll and focus management
+            document.body.style.overflow = 'hidden';
+            mobileMenu.focus();
+        }
+        
+        function closeMenu(): void {
+            if (!mobileMenu || !mobileBackdrop) return;
+            
+            // Animate menu disappearance
+            mobileMenu.style.transform = 'translateY(-10px) scale(0.95)';
+            mobileMenu.style.opacity = '0';
+            
+            hamburgerIcon?.classList.remove('hidden');
+            closeIcon?.classList.add('hidden');
+            mobileMenuButton?.setAttribute('aria-expanded', 'false');
+            
+            // Hide after animation with cleanup
+            setTimeout(() => {
+                mobileMenu?.classList.add('hidden');
+                mobileBackdrop?.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+        
+        // Event listeners with proper error handling
+        mobileMenuButton?.addEventListener('click', (e: Event) => {
             e.stopPropagation();
+            e.preventDefault();
             toggleMenu();
         });
         
-        // Close on backdrop click
         mobileBackdrop?.addEventListener('click', () => {
             if (isOpen) toggleMenu();
         });
         
-        // Close on link click
-        mobileMenu?.addEventListener('click', (event) => {
-            const target = event.target as Element;
+        // Enhanced link click handling
+        mobileMenu?.addEventListener('click', (event: Event) => {
+            const target = event.target as HTMLElement;
             if (target.tagName === 'A') {
-                if (isOpen) toggleMenu();
+                if (isOpen) {
+                    closeMenu();
+                }
+                // Optional: Add loading state
+                target.style.opacity = '0.7';
             }
         });
         
-        // Close on Escape key
-        document.addEventListener('keydown', (event) => {
+        // Keyboard navigation
+        document.addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key === 'Escape' && isOpen) {
                 toggleMenu();
+                mobileMenuButton?.focus();
             }
         });
         
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768 && isOpen) {
-                // Close mobile menu if screen becomes large
-                isOpen = false;
-                mobileMenu?.classList.add('hidden');
-                mobileBackdrop?.classList.add('hidden');
-                hamburgerIcon?.classList.remove('hidden');
-                closeIcon?.classList.add('hidden');
-                document.body.style.overflow = '';
-                mobileMenuButton?.setAttribute('aria-expanded', 'false');
-            }
+        // Optimized resize handler with debounce
+        function handleResize(): void {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (window.innerWidth >= 768 && isOpen) {
+                    isOpen = false;
+                    closeMenu();
+                }
+            }, 150);
+        }
+        
+        window.addEventListener('resize', handleResize);
+        
+        // Cleanup function for memory management
+        window.addEventListener('beforeunload', () => {
+            clearTimeout(resizeTimeout);
+            document.body.style.overflow = '';
         });
     });
-    
-    // Opcional: Loading indicator para transiciones de página
-    const handleLinkClick = (href) => {
-        // Show loading spinner
-        window.location.href = href;
-    };
 </script>
 
 <style>
@@ -207,11 +239,27 @@ const items = refs.map(ref => ({
         opacity: 1;
     }
     
-    /* Focus states for accessibility */
+    /* Corrected focus states for accessibility */
     #mobile-menu-button:focus {
-        ring: 2px;
-        ring-color: #3b82f6;
-        ring-offset: 2px;
+        box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px rgba(59, 130, 246, 0.1);
+        outline: none;
+    }
+    
+    /* Active link styling */
+    nav a[aria-current="page"] {
+        position: relative;
+    }
+    
+    nav a[aria-current="page"]::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 2px;
+        background-color: #3b82f6;
+        border-radius: 1px;
     }
     
     /* Responsive positioning adjustments */
@@ -221,6 +269,28 @@ const items = refs.map(ref => ({
             right: 0.5rem;
             width: auto;
             max-width: none;
+        }
+    }
+    
+    /* Enhanced accessibility for reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        #mobile-menu,
+        #hamburger-icon,
+        #close-icon,
+        #mobile-backdrop,
+        nav a {
+            transition: none;
+        }
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        #mobile-menu {
+            border: 2px solid;
+        }
+        
+        #mobile-menu-button:focus {
+            box-shadow: 0 0 0 3px;
         }
     }
 </style>
