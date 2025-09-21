@@ -16,7 +16,7 @@
 
 html{
     background-color: var(--color-semi-white);
-    background-image: url('/src/assets/imgbackground.jpg') repeat cover;
+    background-image: url('/src/assets/patternsbg.jpg') repeat cover;
     font-family: var(--font-noto);
     color: var(--color-gray-text);
     font-size: 1rem;
