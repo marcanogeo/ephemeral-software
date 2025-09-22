@@ -17,14 +17,15 @@ const currentPath = Astro.url.pathname;
 ---
 
 <!-- Desktop Navigation -->
-<nav role="navigation" aria-label="Main navigation">
-    <div class="hidden md:flex items-center space-x-8">
+<nav role="navigation" aria-label="Main navigation" class="navigation-container">
+    <!-- Desktop Links -->
+    <div class="desktop-nav">
         {items.map(item => {
             const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
             return (
                 <a 
                     href={item.href} 
-                    class={`text-gray-700 hover:text-blue-600 cursor-pointer transition-colors duration-200 font-medium py-2 px-3 rounded-md ${isActive ? 'text-blue-600' : ''}`}
+                    class={`nav-link ${isActive ? 'nav-link--active' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
                 >
                     {item.label}
@@ -34,223 +35,142 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- Mobile Navigation -->
-    <div class="md:hidden relative">
+    <div class="mobile-nav">
         <button 
-            id="mobile-menu-button"
-            class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 p-2 rounded-md transition-colors duration-200"
+            id="mobile-toggle"
+            class="mobile-toggle"
             aria-label="Toggle mobile menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
         >
-            <!-- Hamburger Icon -->
-            <svg id="hamburger-icon" class="w-6 h-6 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-            <!-- Close Icon (hidden by default) -->
-            <svg id="close-icon" class="w-6 h-6 hidden transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
         </button>
         
-        <!-- Mobile Menu Backdrop -->
-        <div 
-            id="mobile-backdrop"
-            class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity duration-300"
-            aria-hidden="true"
-        ></div>
-        
-        <!-- Mobile Menu Dropdown -->
-        <div 
-            id="mobile-menu"
-            class="absolute top-full right-0 w-screen max-w-sm bg-white shadow-xl border border-gray-100 rounded-lg mt-2 mr-4 hidden z-50 transform transition-all duration-300 ease-out"
-            style="transform: translateY(-10px) scale(0.95); opacity: 0;"
-            role="menu"
-            aria-labelledby="mobile-menu-button"
-        >
-            <div class="py-2">
-                <!-- Mobile Menu Header -->
-                <div class="px-4 py-3 border-b border-gray-100">
-                    <p class="text-sm font-medium text-gray-500">Navigation</p>
-                </div>
-                
-                <!-- Navigation Links -->
-                <div class="py-2" role="none">
-                    {items.map(item => {
-                        const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
-                        return (
-                            <a 
-                                href={item.href} 
-                                class={`block text-gray-700 hover:text-blue-600 hover:bg-blue-50 cursor-pointer transition-all duration-200 font-medium py-3 px-4 border-l-4 border-transparent hover:border-blue-600 ${isActive ? 'text-blue-600 bg-blue-50 border-blue-600' : ''}`}
-                                role="menuitem"
-                                aria-current={isActive ? 'page' : undefined}
-                            >
-                                {item.label}
-                            </a>
-                        );
-                    })}
-                </div>
-            </div>
+        <!-- Mobile Menu (Simple Dropdown) -->
+        <div id="mobile-menu" class="mobile-menu" role="menu">
+            {items.map(item => {
+                const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+                return (
+                    <a 
+                        href={item.href} 
+                        class={`mobile-link ${isActive ? 'mobile-link--active' : ''}`}
+                        role="menuitem"
+                        aria-current={isActive ? 'page' : undefined}
+                    >
+                        {item.label}
+                    </a>
+                );
+            })}
         </div>
     </div>
 </nav>
 
 <script>
-    // Mobile menu toggle functionality with professional animations
     document.addEventListener('DOMContentLoaded', () => {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileToggle = document.getElementById('mobile-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
-        const mobileBackdrop = document.getElementById('mobile-backdrop');
-        const hamburgerIcon = document.getElementById('hamburger-icon');
-        const closeIcon = document.getElementById('close-icon');
-        
         let isOpen = false;
-        let resizeTimeout: ReturnType<typeof setTimeout>;
         
-        // Optimized toggle function
-        function toggleMenu(): void {
+        function toggleMenu() {
             isOpen = !isOpen;
             
-            if (isOpen) {
-                openMenu();
-            } else {
-                closeMenu();
+            if (mobileToggle && mobileMenu) {
+                // Update ARIA state
+                mobileToggle.setAttribute('aria-expanded', isOpen.toString());
+                
+                // Toggle classes
+                mobileToggle.classList.toggle('mobile-toggle--open', isOpen);
+                mobileMenu.classList.toggle('mobile-menu--open', isOpen);
             }
         }
         
-        function openMenu(): void {
-            if (!mobileMenu || !mobileBackdrop) return;
-            
-            // Show elements
-            mobileMenu.classList.remove('hidden');
-            mobileBackdrop.classList.remove('hidden');
-            hamburgerIcon?.classList.add('hidden');
-            closeIcon?.classList.remove('hidden');
-            mobileMenuButton?.setAttribute('aria-expanded', 'true');
-            
-            // Animate menu appearance
-            requestAnimationFrame(() => {
-                if (mobileMenu) {
-                    mobileMenu.style.transform = 'translateY(0) scale(1)';
-                    mobileMenu.style.opacity = '1';
-                }
-            });
-            
-            // Prevent body scroll and focus management
-            document.body.style.overflow = 'hidden';
-            mobileMenu.focus();
-        }
-        
-        function closeMenu(): void {
-            if (!mobileMenu || !mobileBackdrop) return;
-            
-            // Animate menu disappearance
-            mobileMenu.style.transform = 'translateY(-10px) scale(0.95)';
-            mobileMenu.style.opacity = '0';
-            
-            hamburgerIcon?.classList.remove('hidden');
-            closeIcon?.classList.add('hidden');
-            mobileMenuButton?.setAttribute('aria-expanded', 'false');
-            
-            // Hide after animation with cleanup
-            setTimeout(() => {
-                mobileMenu?.classList.add('hidden');
-                mobileBackdrop?.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-        
-        // Event listeners with proper error handling
-        mobileMenuButton?.addEventListener('click', (e: Event) => {
-            e.stopPropagation();
+        // Toggle on button click
+        mobileToggle?.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             toggleMenu();
         });
         
-        mobileBackdrop?.addEventListener('click', () => {
-            if (isOpen) toggleMenu();
-        });
-        
-        // Enhanced link click handling
-        mobileMenu?.addEventListener('click', (event: Event) => {
+        // Close menu when clicking on a link
+        mobileMenu?.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
-            if (target.tagName === 'A') {
-                if (isOpen) {
-                    closeMenu();
-                }
-                // Optional: Add loading state
-                target.style.opacity = '0.7';
+            if (target.classList.contains('mobile-link')) {
+                toggleMenu();
             }
         });
         
-        // Keyboard navigation
-        document.addEventListener('keydown', (event: KeyboardEvent) => {
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            const target = event.target as HTMLElement;
+            if (isOpen && 
+                !mobileToggle?.contains(target) && 
+                !mobileMenu?.contains(target)) {
+                toggleMenu();
+            }
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && isOpen) {
                 toggleMenu();
-                mobileMenuButton?.focus();
+                mobileToggle?.focus();
             }
         });
         
-        // Optimized resize handler with debounce
-        function handleResize(): void {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                if (window.innerWidth >= 768 && isOpen) {
-                    isOpen = false;
-                    closeMenu();
-                }
-            }, 150);
-        }
-        
-        window.addEventListener('resize', handleResize);
-        
-        // Cleanup function for memory management
-        window.addEventListener('beforeunload', () => {
-            clearTimeout(resizeTimeout);
-            document.body.style.overflow = '';
+        // Auto-close on desktop resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && isOpen) {
+                toggleMenu();
+            }
         });
     });
 </script>
 
 <style>
-    /* Enhanced mobile menu styling */
-    #mobile-menu {
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+    /* === NAVIGATION CONTAINER === */
+    .navigation-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
     
-    /* Smooth icon transitions */
-    #hamburger-icon,
-    #close-icon {
-        transition: all 0.2s ease-in-out;
+    /* === DESKTOP NAVIGATION === */
+    .desktop-nav {
+        display: none;
+        align-items: center;
+        gap: 2rem;
     }
     
-    /* Enhanced hover effects for mobile links */
-    #mobile-menu a:hover {
-        transform: translateX(4px);
+    @media (min-width: 768px) {
+        .desktop-nav {
+            display: flex;
+        }
     }
     
-    /* Backdrop transition */
-    #mobile-backdrop {
-        transition: opacity 0.3s ease-in-out;
-    }
-    
-    #mobile-backdrop:not(.hidden) {
-        opacity: 1;
-    }
-    
-    /* Corrected focus states for accessibility */
-    #mobile-menu-button:focus {
-        box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px rgba(59, 130, 246, 0.1);
-        outline: none;
-    }
-    
-    /* Active link styling */
-    nav a[aria-current="page"] {
+    .nav-link {
+        color: #374151;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        transition: all 0.2s ease;
         position: relative;
     }
     
-    nav a[aria-current="page"]::after {
+    .nav-link:hover {
+        color: #3b82f6;
+        background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    .nav-link--active {
+        color: #3b82f6;
+        font-weight: 600;
+    }
+    
+    .nav-link--active::after {
         content: '';
         position: absolute;
         bottom: -2px;
@@ -262,35 +182,146 @@ const currentPath = Astro.url.pathname;
         border-radius: 1px;
     }
     
-    /* Responsive positioning adjustments */
-    @media (max-width: 480px) {
-        #mobile-menu {
-            left: 0.5rem;
-            right: 0.5rem;
-            width: auto;
-            max-width: none;
+    /* === MOBILE NAVIGATION === */
+    .mobile-nav {
+        display: block;
+        position: relative;
+        width: 100%;
+    }
+    
+    @media (min-width: 768px) {
+        .mobile-nav {
+            display: none;
         }
     }
     
-    /* Enhanced accessibility for reduced motion */
+    /* === MOBILE TOGGLE BUTTON === */
+    .mobile-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s ease;
+        margin-left: auto;
+    }
+    
+    .mobile-toggle:hover {
+        background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    .mobile-toggle:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    }
+    
+    /* === HAMBURGER LINES === */
+    .hamburger-line {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background-color: #374151;
+        margin: 2px 0;
+        transition: all 0.3s ease;
+        border-radius: 1px;
+    }
+    
+    .mobile-toggle--open .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .mobile-toggle--open .hamburger-line:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .mobile-toggle--open .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+    
+    /* === MOBILE MENU === */
+    .mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 50;
+    }
+    
+    .mobile-menu--open {
+        max-height: 300px;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* === MOBILE LINKS === */
+    .mobile-link {
+        display: block;
+        color: #374151;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        border-radius: 0.375rem;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+    }
+    
+    .mobile-link:hover {
+        color: #3b82f6;
+        background-color: rgba(59, 130, 246, 0.05);
+        border-left-color: #3b82f6;
+        transform: translateX(4px);
+    }
+    
+    .mobile-link--active {
+        color: #3b82f6;
+        background-color: rgba(59, 130, 246, 0.1);
+        border-left-color: #3b82f6;
+        font-weight: 600;
+    }
+    
+    /* === ACCESSIBILITY === */
     @media (prefers-reduced-motion: reduce) {
-        #mobile-menu,
-        #hamburger-icon,
-        #close-icon,
-        #mobile-backdrop,
-        nav a {
+        .nav-link,
+        .mobile-link,
+        .mobile-menu,
+        .hamburger-line {
             transition: none;
         }
     }
     
-    /* High contrast mode support */
     @media (prefers-contrast: high) {
-        #mobile-menu {
-            border: 2px solid;
+        .mobile-menu {
+            border-width: 2px;
+            border-color: #000;
         }
         
-        #mobile-menu-button:focus {
-            box-shadow: 0 0 0 3px;
+        .mobile-toggle:focus {
+            box-shadow: 0 0 0 3px #000;
+        }
+    }
+    
+    /* === RESPONSIVE ADJUSTMENTS === */
+    @media (max-width: 480px) {
+        .mobile-menu {
+            left: -0.5rem;
+            right: -0.5rem;
         }
     }
 </style>
