@@ -1,176 +1,581 @@
 ---
 import { backgroundAssets } from '../assets';
 
-export interface Props {
-    pageType: 'home' | 'about' | 'services' | 'contact' | 'default';
-    title: string;
-    description: string;
-    ctaText?: string;
-    ctaLink?: string;
-    customBackground?: string;
+interface Props {
+  pageType?: string;
+  title?: string;
+  description?: string;
+  showCTA?: boolean;
+  ctaText?: string;
+  ctaHref?: string;
+  headingLevel?: 'h1' | 'h2';
+  backgroundOverride?: string;
 }
 
-const { 
-    pageType, 
-    title, 
-    description, 
-    ctaText = "Learn More", 
-    ctaLink = "#",
-    customBackground
+const {
+  pageType = 'default',
+  title = 'Welcome to Ephemeral',
+  description = 'Transforming ideas into technological solutions',
+  showCTA = false,
+  ctaText = 'Get Started',
+  ctaHref = '/form',
+  headingLevel = 'h1',
+  backgroundOverride
 } = Astro.props;
 
-// Obtener el fondo según el tipo de página
-const backgroundImage = customBackground || backgroundAssets[pageType];
-const imageSrc = typeof backgroundImage === 'string' ? backgroundImage : backgroundImage?.src;
+// ✅ Obtener background dinámico del sistema de assets
+const getBackgroundAsset = (type: string) => {
+  const assetMap: Record<string, any> = {
+    home: backgroundAssets.home,
+    about: backgroundAssets.about,
+    services: backgroundAssets.services,
+    contact: backgroundAssets.contact,
+    contactform: backgroundAssets.contact, // Fallback
+    blog: backgroundAssets.blog || backgroundAssets.home,
+    default: backgroundAssets.home
+  };
+  
+  return assetMap[type] || assetMap.default;
+};
 
-// Configuración profesional UX/UI
-const titleClasses = "text-4xl md:text-6xl lg:text-7xl font-bold mb-6 !text-white font-poppins tracking-tight text-shadow-strong";
-const descriptionClasses = "text-lg md:text-xl lg:text-2xl mb-8 !text-gray-200 font-noto font-medium max-w-3xl mx-auto leading-relaxed text-shadow-subtle";
-const textContainerClasses = "relative z-20 flex flex-col items-center justify-center h-full px-6 text-center";
+const backgroundAsset = backgroundOverride ? { src: backgroundOverride } : getBackgroundAsset(pageType);
+const isHomePage = pageType === 'home';
+const shouldShowCTA = showCTA || isHomePage;
+
+// ✅ Generar múltiples formatos para performance
+const backgroundSrc = backgroundAsset?.src || '';
+const backgroundWebP = backgroundSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+const backgroundAvif = backgroundSrc.replace(/\.(jpg|jpeg|png)$/i, '.avif');
+
+// ✅ Configuración corregida con centrado para About
+const pageConfig = {
+  home: {
+    animation: 'slideInUp',
+    textAlign: 'center'
+  },
+  about: {
+    animation: 'fadeIn',
+    textAlign: 'center' // ✅ Cambiado a center
+  },
+  services: {
+    animation: 'slideInLeft',
+    textAlign: 'center'
+  },
+  contact: {
+    animation: 'fadeInUp',
+    textAlign: 'center'
+  },
+  default: {
+    animation: 'fadeIn',
+    textAlign: 'center'
+  }
+};
+
+const config = pageConfig[pageType as keyof typeof pageConfig] || pageConfig.default;
+const HeadingTag = headingLevel;
 ---
 
-<div class="dynamic-banner relative w-full h-screen overflow-hidden" style="background: #04335C;">
-    <!-- Imagen de fondo con transición suave -->
-    <div class="absolute inset-0 z-0">
-        <img 
-            src={imageSrc} 
-            alt={`${pageType} background`} 
-            class="w-full h-full object-cover transition-opacity duration-700 ease-in-out"
-            loading="eager"
-            onload="this.style.opacity='1';"
-            style="opacity: 0;"
-        />
-    </div>
-    
-    <!-- Contenido del banner -->
-    <div class={textContainerClasses}>
-        <div class="max-w-5xl mx-auto">
-            <h1 class={titleClasses}>
-                {title}
-            </h1>
-            <p class={descriptionClasses}>
-                {description}
-            </p>
-            {ctaText && ctaLink && (
-                <a 
-                    href={ctaLink}
-                    class="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 font-roboto"
-                    aria-label={`${ctaText} - ${pageType} section`}
-                >
-                    {ctaText}
-                </a>
-            )}
+<!-- ✅ Preload crítico -->
+<link rel="preload" as="image" href={backgroundSrc} fetchpriority="high" />
+
+<section 
+  class="dynamic-banner" 
+  data-page-type={pageType}
+  style={`--text-align: ${config.textAlign}`}
+>
+  <!-- ✅ Background sin overlay -->
+  <picture class="banner-background">
+    <source srcset={backgroundAvif} type="image/avif" />
+    <source srcset={backgroundWebP} type="image/webp" />
+    <img 
+      src={backgroundSrc} 
+      alt={`${pageType} background`}
+      class="background-image"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </picture>
+  
+  <div class="banner-container">
+    <div class={`banner-content banner-content--${config.animation}`}>
+      <HeadingTag class="banner-title">
+        {title}
+      </HeadingTag>
+      
+      <p class="banner-description">
+        {description}
+      </p>
+      
+      <!-- ✅ CTA sin gradiente -->
+      {shouldShowCTA && (
+        <div class="banner-cta">
+          <a 
+            href={ctaHref} 
+            class="cta-button"
+            data-analytics="banner-cta"
+            data-page-type={pageType}
+            aria-label={`${ctaText} - Navigate to contact form`}
+          >
+            <span class="cta-text">{ctaText}</span>
+            <svg class="cta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06L19.19 12l-2.47-2.47a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </a>
         </div>
+      )}
+      
+      <!-- ✅ Scroll indicator -->
+      <button class="scroll-indicator" aria-label="Scroll to content">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+        </svg>
+      </button>
     </div>
-</div>
+  </div>
+</section>
+
+<script>
+  // ✅ Script corregido con manejo de tipos seguro
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollIndicator = document.querySelector('.scroll-indicator') as HTMLButtonElement;
+    
+    // ✅ Scroll indicator functionality con verificación de tipos
+    scrollIndicator?.addEventListener('click', () => {
+      const banner = document.querySelector('.dynamic-banner') as HTMLElement;
+      const nextSection = banner?.nextElementSibling as HTMLElement;
+      
+      if (nextSection) {
+        nextSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start' 
+        });
+      }
+    });
+    
+    // ✅ Analytics tracking con verificación de tipos y existencia
+    const ctaButton = document.querySelector('[data-analytics="banner-cta"]') as HTMLAnchorElement;
+    
+    ctaButton?.addEventListener('click', (e: Event) => {
+      // ✅ Type assertion segura para el target
+      const target = e.currentTarget as HTMLAnchorElement;
+      const pageType = target?.getAttribute('data-page-type');
+      
+      // ✅ Verificación de existencia de gtag antes de usar
+      if (typeof window !== 'undefined' && 'gtag' in window && typeof (window as any).gtag === 'function') {
+        try {
+          (window as any).gtag('event', 'banner_cta_click', {
+            page_type: pageType || 'unknown',
+            event_category: 'engagement',
+            event_label: 'banner_cta'
+          });
+        } catch (error) {
+          // ✅ Manejo silencioso de errores de analytics
+          console.debug('Analytics tracking failed:', error);
+        }
+      }
+      
+      // ✅ Fallback analytics para otros sistemas
+      if (typeof window !== 'undefined' && 'dataLayer' in window) {
+        try {
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer.push({
+            event: 'banner_cta_click',
+            page_type: pageType || 'unknown',
+            event_category: 'engagement'
+          });
+        } catch (error) {
+          console.debug('DataLayer push failed:', error);
+        }
+      }
+    });
+  });
+</script>
+
+<script is:inline>
+  // ✅ Script alternativo más robusto (opcional)
+  (function() {
+    'use strict';
+    
+    // ✅ Verificar si el DOM está listo
+    function initBanner() {
+      // Scroll indicator
+      const scrollBtn = document.querySelector('.scroll-indicator');
+      if (scrollBtn) {
+        scrollBtn.addEventListener('click', function() {
+          const banner = document.querySelector('.dynamic-banner');
+          const nextSection = banner && banner.nextElementSibling;
+          if (nextSection && typeof nextSection.scrollIntoView === 'function') {
+            nextSection.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start' 
+            });
+          }
+        });
+      }
+      
+      // CTA tracking
+      const ctaBtn = document.querySelector('[data-analytics="banner-cta"]');
+      if (ctaBtn) {
+        ctaBtn.addEventListener('click', function(e) {
+          const pageType = this.getAttribute('data-page-type') || 'unknown';
+          
+          // Google Analytics 4
+          if (window.gtag && typeof window.gtag === 'function') {
+            try {
+              window.gtag('event', 'banner_cta_click', {
+                page_type: pageType,
+                event_category: 'engagement',
+                event_label: 'banner_cta'
+              });
+            } catch (err) {
+              console.debug('GA4 tracking failed:', err);
+            }
+          }
+          
+          // Google Tag Manager
+          if (window.dataLayer && Array.isArray(window.dataLayer)) {
+            try {
+              window.dataLayer.push({
+                event: 'banner_cta_click',
+                page_type: pageType,
+                event_category: 'engagement'
+              });
+            } catch (err) {
+              console.debug('GTM tracking failed:', err);
+            }
+          }
+          
+          // Custom analytics placeholder
+          if (window.analytics && typeof window.analytics.track === 'function') {
+            try {
+              window.analytics.track('Banner CTA Click', {
+                page_type: pageType,
+                location: 'banner'
+              });
+            } catch (err) {
+              console.debug('Custom analytics failed:', err);
+            }
+          }
+        });
+      }
+    }
+    
+    // ✅ Inicializar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBanner);
+    } else {
+      initBanner();
+    }
+  })();
+</script>
 
 <style>
-    /* =================================
-       PROFESSIONAL BANNER COMPONENT
-       ================================= */
+  /* === BANNER BASE === */
+  .dynamic-banner {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  
+  /* === BACKGROUND SIN OVERLAY === */
+  .banner-background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  
+  .background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  /* === CONTENT CENTRADO === */
+  .banner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: var(--text-align, center); /* ✅ Usa la variable CSS */
+    z-index: 2;
+    width: 100%;
+  }
+  
+  .banner-content {
+    max-width: 800px;
+    margin: 0 auto; /* ✅ Asegura centrado horizontal */
+  }
+  
+  .banner-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    letter-spacing: -0.02em;
+    text-align: inherit; /* ✅ Hereda del contenedor padre */
+  }
+  
+  .banner-description {
+    font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: inherit; /* ✅ Hereda del contenedor padre */
+  }
+  
+  /* === FORZAR CENTRADO EN ABOUT === */
+  [data-page-type="about"] .banner-container {
+    text-align: center !important; /* ✅ Override específico para About */
+  }
+  
+  [data-page-type="about"] .banner-title,
+  [data-page-type="about"] .banner-description {
+    text-align: center !important; /* ✅ Forzar centrado en About */
+  }
+  
+  /* === CTA BUTTON CORPORATIVO REDONDEADO === */
+  .banner-cta {
+    margin-bottom: 3rem;
+  }
+  
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* ✅ Azul corporativo simple y profesional */
+    background: #2563eb;
+    color: white; /* ✅ Texto blanco confirmado */
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 9999px; /* ✅ Completamente redondeado (pill shape) */
+    text-decoration: none;
+    /* ✅ Sombra sutil y profesional */
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s ease;
+    border: none;
+    letter-spacing: 0.025em;
+  }
+  
+  .cta-button:hover {
+    /* ✅ Hover más oscuro pero conservador */
+    background: #1d4ed8;
+    color: white; /* ✅ Texto blanco mantenido en hover */
+    box-shadow: 0 6px 12px -2px rgba(37, 99, 235, 0.3);
+    transform: translateY(-1px); /* ✅ Movimiento sutil */
+  }
+  
+  .cta-button:active {
+    background: #1e40af;
+    color: white; /* ✅ Texto blanco mantenido en active */
+    transform: translateY(0);
+    box-shadow: 0 2px 4px -1px rgba(37, 99, 235, 0.2);
+  }
+  
+  .cta-text {
+    font-weight: 500;
+    color: inherit; /* ✅ Hereda el color blanco del padre */
+  }
+  
+  .cta-icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.2s ease;
+    color: white; /* ✅ Icono blanco */
+  }
+  
+  .cta-button:hover .cta-icon {
+    transform: translateX(2px); /* ✅ Movimiento más sutil */
+    color: white; /* ✅ Icono blanco mantenido en hover */
+  }
+  
+  /* === SCROLL INDICATOR === */
+  .scroll-indicator {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: bounce 2s infinite;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  
+  .scroll-indicator:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+  }
+  
+  .scroll-indicator svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  /* === ANIMATIONS === */
+  .banner-content--slideInUp {
+    animation: slideInUp 1s ease-out;
+  }
+  
+  .banner-content--fadeIn {
+    animation: fadeIn 1s ease-out;
+  }
+  
+  .banner-content--slideInLeft {
+    animation: slideInLeft 1s ease-out;
+  }
+  
+  .banner-content--fadeInUp {
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-8px);
+    }
+    60% {
+      transform: translateY(-4px);
+    }
+  }
+  
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .banner-container {
+      padding: 0 1rem;
+      text-align: center; /* ✅ Siempre centrado en móvil */
+    }
     
+    .cta-button {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+      padding: 1rem 1.5rem;
+      font-size: 1.05rem;
+      color: white; /* ✅ Texto blanco en móvil */
+    }
+    
+    .banner-description {
+      margin-bottom: 2rem;
+    }
+    
+    .banner-title,
+    .banner-description {
+      text-align: center; /* ✅ Forzar centrado en móvil */
+    }
+  }
+  
+  /* === ACCESSIBILITY === */
+  .cta-button:focus {
+    outline: none;
+    color: white; /* ✅ Texto blanco en focus */
+    box-shadow: 
+      0 0 0 3px rgba(37, 99, 235, 0.2),
+      0 4px 6px -1px rgba(37, 99, 235, 0.2);
+  }
+  
+  .scroll-indicator:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7);
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .banner-content--slideInUp,
+    .banner-content--fadeIn,
+    .banner-content--slideInLeft,
+    .banner-content--fadeInUp,
+    .scroll-indicator,
+    .cta-button,
+    .cta-button::before,
+    .cta-icon {
+      animation: none;
+      transition: none;
+    }
+  }
+  
+  @media (prefers-contrast: high) {
+    .cta-button {
+      border: 3px solid white;
+      background: #1e40af;
+    }
+    
+    .scroll-indicator {
+      border-width: 3px;
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .banner-title,
+    .banner-description {
+      text-shadow: 0 0 4px rgba(0, 0, 0, 1);
+    }
+  }
+  
+  /* === PRINT STYLES === */
+  @media print {
     .dynamic-banner {
-        /* Corporate foundation */
-        background: var(--color-corporate-blue, #04335C);
-        position: relative;
-        z-index: 1;
-        min-height: 100vh;
+      min-height: auto;
+      padding: 2rem 0;
     }
     
-    /* Professional text shadows for optimal readability */
-    .text-shadow-strong {
-        text-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.8),
-            0 4px 8px rgba(0, 0, 0, 0.6),
-            0 8px 16px rgba(0, 0, 0, 0.4);
+    .banner-cta,
+    .scroll-indicator {
+      display: none;
     }
-    
-    .text-shadow-subtle {
-        text-shadow: 
-            0 1px 3px rgba(0, 0, 0, 0.7),
-            0 2px 6px rgba(0, 0, 0, 0.5);
-    }
-    
-    /* Enhanced animations for professional feel */
-    .dynamic-banner .text-center {
-        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Image optimization */
-    .dynamic-banner img {
-        will-change: opacity;
-        object-position: center center;
-    }
-    
-    /* CTA button enhancements */
-    .dynamic-banner a[aria-label*="section"] {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
-    }
-    
-    .dynamic-banner a[aria-label*="section"]:hover {
-        box-shadow: 0 6px 20px rgba(0, 118, 255, 0.5), 0 0 0 3px rgba(59, 130, 246, 0.15);
-    }
-    
-    .dynamic-banner a[aria-label*="section"]:focus {
-        outline: none;
-        box-shadow: 0 6px 20px rgba(0, 118, 255, 0.5), 0 0 0 3px rgba(59, 130, 246, 0.5);
-    }
-    
-    /* Responsive typography */
-    @media (max-width: 768px) {
-        .dynamic-banner h1 {
-            font-size: 2.5rem;
-            line-height: 1.1;
-           /* padding-top: 14rem;*/
-        }
-        
-        .dynamic-banner p {
-            font-size: 1.125rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .dynamic-banner a[aria-label*="section"] {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            min-width: 160px;
-        }
-    }
-    
-    /* Performance optimizations */
-    @media (prefers-reduced-motion: reduce) {
-        .dynamic-banner .text-center {
-            animation: none;
-        }
-        
-        .dynamic-banner a[aria-label*="section"] {
-            transition: none;
-        }
-    }
-    
-    /* High contrast support */
-    @media (prefers-contrast: high) {
-        .text-shadow-strong,
-        .text-shadow-subtle {
-            text-shadow: 
-                0 0 2px #000,
-                0 0 4px #000,
-                0 0 6px #000;
-        }
-        
-        .dynamic-banner a[aria-label*="section"] {
-            border: 2px solid currentColor;
-        }
-    }
+  }
 </style>

@@ -1,0 +1,215 @@
+---
+import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
+import FormContact from "../components/FormContact.astro";
+import DynamicBanner from '../components/DynamicBanner.astro';
+---
+
+<Layout pageTitle="Contact Form - Ephemeral SL" backgroundType="contact">
+    <main class="contact-form-page">
+        <!-- Hero Section -->
+        <DynamicBanner 
+            pageType="contact"
+            title="Let's Build Something Amazing Together"
+            description="Tell us about your project and we'll get back to you within 24 hours with a detailed proposal."
+        />
+        
+        <!-- Form Section -->
+        <section class="form-section">
+            <div class="form-container">
+                <!-- Content Header -->
+                <div class="form-header">
+                    <h2 class="form-title">Get Started Today</h2>
+                    <p class="form-subtitle">
+                        Share your vision with us and let's transform it into a competitive advantage.
+                        Our team of experts is ready to help you succeed.
+                    </p>
+                </div>
+                
+                <!-- Contact Form Component -->
+                <div class="form-wrapper">
+                    <FormContact />
+                </div>
+                
+                <!-- Additional Information -->
+                <div class="form-footer">
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <h3>Response Time</h3>
+                                <p>Less than 24 hours</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <h3>Privacy</h3>
+                                <p>Your data is secure</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666Z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <h3>Free Consultation</h3>
+                                <p>No commitment required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>
+
+<style>
+    /* === CONTACT FORM PAGE === */
+    .contact-form-page {
+        min-height: 100vh;
+        background: var(--color-blue-50, #f0f9ff);
+    }
+    
+    /* === FORM SECTION === */
+    .form-section {
+        padding: 4rem 0;
+        position: relative;
+    }
+    
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    
+    /* === FORM HEADER === */
+    .form-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .form-title {
+        font-size: clamp(2rem, 4vw, 2.5rem);
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 1rem;
+        letter-spacing: -0.025em;
+    }
+    
+    .form-subtitle {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        color: #4b5563;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    /* === FORM WRAPPER === */
+    .form-wrapper {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 
+            0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        padding: 2.5rem;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(226, 232, 240, 0.5);
+    }
+    
+    /* === FORM FOOTER === */
+    .form-footer {
+        margin-top: 3rem;
+    }
+    
+    .contact-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        transition: all 0.3s ease;
+    }
+    
+    .info-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .info-icon {
+        width: 2rem;
+        height: 2rem;
+        color: #3b82f6;
+        flex-shrink: 0;
+    }
+    
+    .info-item h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.25rem;
+    }
+    
+    .info-item p {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+    }
+    
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+        .form-section {
+            padding: 2rem 0;
+        }
+        
+        .form-wrapper {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info {
+            grid-template-columns: 1fr;
+        }
+        
+        .info-item {
+            padding: 1rem;
+        }
+    }
+    
+    /* === ACCESSIBILITY === */
+    @media (prefers-reduced-motion: reduce) {
+        .info-item {
+            transition: none;
+        }
+    }
+    
+    @media (prefers-contrast: high) {
+        .form-wrapper,
+        .info-item {
+            border-width: 2px;
+            border-color: #000;
+        }
+    }
+    
+    /* === LOADING STATES === */
+    .form-wrapper:has(form[data-loading]) {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+</style>
+

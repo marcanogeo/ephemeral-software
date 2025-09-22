@@ -1,0 +1,73 @@
+---
+---
+
+<section class="bg-white py-16">
+  <div class="max-w-[800px] mx-auto px-6">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-6">
+      Agenda tu consulta
+    </h2>
+    <p class="text-lg text-gray-600 text-center mb-12">
+      Cuéntanos sobre tu proyecto o desafío tecnológico y nuestro equipo se pondrá en contacto 
+      contigo en menos de <span class="font-semibold text-blue-600">24 horas</span>.
+    </p>
+
+    <form action="https://formsubmit.co/TU_CORREO@ejemplo.com" method="POST" class="space-y-6">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+          <input type="text" id="name" name="name" required
+            class="mt-2 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none" />
+        </div>
+        <div>
+          <label for="company" class="block text-sm font-medium text-gray-700">Empresa</label>
+          <input type="text" id="company" name="company"
+            class="mt-2 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none" />
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+          <input type="email" id="email" name="email" required
+            class="mt-2 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none" />
+        </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+          <input type="tel" id="phone" name="phone"
+            class="mt-2 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none" />
+        </div>
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-medium text-gray-700">Mensaje</label>
+        <textarea id="message" name="message" rows="5" required
+          class="mt-2 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit"
+          class="bg-blue-600 text-white px-8 py-3 rounded-full shadow-lg hover:bg-blue-700 transition">
+          Enviar consulta
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+<style>
+  /* Estilos específicos para ContactForm */
+  section {
+    background: #f9fafb;
+  }
+  h2 {
+    color: #1f2937;
+  }
+  p {
+    color: #4b5563;
+  }
+  input, textarea {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  button {
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+  }
+</style>

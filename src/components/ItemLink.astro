@@ -1,12 +1,21 @@
 ---
+/*const refs = [
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/services', label: 'Services' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/contact', label: 'Contact' }, // ✅ Página informativa
+];
+*/
 const refs = [
     { href: '/', label: 'Home' },
-    { href: '/about/', label: 'About' },
-    { href: '/services/', label: 'Services' },
-    { href: '/blog/', label: 'Blog' },
-    { href: '/contact/', label: 'Contact' },
+    { href: '/about', label: 'About' },
+    { href: '/services', label: 'Services' },
+    { href: '/contact', label: 'Contact' }, // ✅ Página informativa
+    { href: '/form', label: 'Get in Touch' } // ✅ Nueva página de formulario de contacto
 ];
 
+// ✅ Mapeo correcto sin barras finales innecesarias
 const items = refs.map(ref => ({
     href: ref.href,
     label: ref.label,
